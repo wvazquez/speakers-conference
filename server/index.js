@@ -1,18 +1,22 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
+const hbs = require('express-handlebars');
 const createErrors = require('http-errors');
 const path = require('path');
 const routes = require('./routes');
 
 const app = express();
 
-
-app.engine('.hbs', exphbs({extname: '.hbs'}));
-app.set('view engine', '.hbs');
-app.set('views', path.join(__dirname, './views'));
-
-
 app.use(express.static('public'));
+// view engine setup
+app.set('views', path.join(__dirname, './views'));
+app.set('view engine', '.hbs');
+
+app.engine( '.hbs', hbs( {
+  extname: '.hbs',
+  defaultView: 'default',
+  layoutsDir: __dirname + '/views/layouts/',
+  partialsDir: __dirname + '/views/partials/'
+}));
 
 app.get('/favicon.ico', (req,res,next)=>{
     return res.sendStatus(204);
