@@ -56,3 +56,20 @@ header {
     font-size: 1em;
     font-weight: 300;
   }
+
+  .speakerslist {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    line-height: 160%;
+  }
+  
+  #speakerList .speakerslist-img {
+    margin-right: 20px;
+  }
+  
+  .speakerslist-title {
+    font-size: 1.7em;
+  }
+  .speakerslist-name{
+    font-size: 1em;
+  }
