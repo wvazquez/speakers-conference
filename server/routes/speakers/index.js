@@ -3,7 +3,9 @@ const router = express.Router();
 
 module.exports = () => {
     router.get('/', (req,res,next)=>{
-        return res.send("All speakers");
+        return res.render('speakers/speakers',{
+            layout: 'default'
+        });
     });
     router.get('/:name', (req,res,next)=>{
         return res.send(`Speaker ${req.params.name}`);

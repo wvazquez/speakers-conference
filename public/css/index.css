@@ -73,3 +73,21 @@ header {
   .speakerslist-name{
     font-size: 1em;
   }
+
+  .sidebar {
+    font-family: 'Roboto', sans-serif;
+    line-height: 130%;
+  }
+  
+  .sidebar .sidebar-body li {
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .sidebar {
+      line-height: 160%;
+    }
+    .sidebar .sidebar-title {
+      font-size: 2em;
+    }
+  }
