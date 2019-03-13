@@ -1,56 +1,9 @@
 <header>
     <div class="jumbotron hidden-xs"></div>
     <!-- jumbotron-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="/">Roux Conference</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/speakers" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Speakers</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/speakers/lorenzogarcia">Lorenzo Garcia</a>
-                            <a class="dropdown-item" href="/speakers/hilary">Hilary Goldywynn Post</a>
-                            <a class="dropdown-item" href="/speakers/riley">Riley Rudolph Rewington</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/speakers">All Speakers</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>  
+    {{> navigation}}  
 </header>
-<article class="speakerslist jumbotron hidden-xs">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4 text-center">
-                <h3 class="speakerslist-title">Art in Full Bloom</h3>
-                <h5 class="speakerslist-name">with<a href="/speakers/Lorenzo_Garcia">Lorenzo Garcia</a></h5>
-                <p class="speakerslist-info"><a href="/speakers/Lorenzo_Garcia"><img class="speakerslist-img rounded-circle" src="./images/speakers/Lorenzo_Garcia_tn.jpg" alt="Photo of Lorenzo Garcia"></a></p>
-            </div>
-            <div class="col-sm-4 text-center">
-                <h3 class="speakerslist-title">Deep Sea Wonders</h3>
-                <h5 class="speakerslist-name">with<a href="./Hillary_Goldwynn.html">Hilary Goldywynn Post</a></h5>
-                <p class="speakerslist-info"><a href="./Hillary_Goldwynn.html"><img class="speakerslist-img rounded-circle" src="./images/speakers/Hillary_Goldwynn_tn.jpg" alt="Photo of Hilary Goldywynn Post"></a></p>
-            </div>
-            <div class="col-sm-4 text-center">
-                <h3 class="speakerslist-title">The Art of Abstract</h3>
-                <h5 class="speakerslist-name">with<a href="/speakers/Riley_Rewington">Riley Rudolph Rewington</a></h5>
-                <p class="speakerslist-info"><a href="/speakers/Riley_Rewington"><img class="speakerslist-img rounded-circle" src="./images/speakers/Riley_Rewington_tn.jpg" alt="Photo of Riley Rudolph Rewington"></a></p>
-            </div>
-        </div>
-        <!-- row-->
-    </div>
-    <!-- container-->
-</article>
+{{> speakerlist}}
 <div class="container" id="home">
     <div class="row">
         <div class="col-sm-8">
@@ -71,30 +24,7 @@
                 </article>
             </div>
         </div>
-        <!-- primary-->
-        <aside class="col-sm-4">
-            <article class="sidebar">
-                <h1 class="sidebar-title">Who should come?</h1>
-                <ul class="sidebar-body">
-                    <li>Anybody interested in art and the creative industry</li>
-                    <li>Painters, sculptors, photographers and graphic artists</li>
-                    <li>Those interested in meeting and making a connection with others in the local art scene.</li>
-                </ul>
-            </article>
-            <!-- article-->
-            <article class="sidebar">
-                <h1 class="sidebar-title">Artwork on display</h1>
-                <p class="sidebar-body">While you attend the conference, head over to our gallery where you can check out some of the work from our speakers.</p>
-                <div class="pixgrid clearfix"><img src="./images/artwork/Lorenzo_Garcia_01_tn.jpg" alt="Artwork 0"><img src="./images/artwork/Lorenzo_Garcia_02_tn.jpg" alt="Artwork 1"><img src="./images/artwork/Lorenzo_Garcia_03_tn.jpg" alt="Artwork 2"><img src="./images/artwork/Lorenzo_Garcia_04_tn.jpg"
-                        alt="Artwork 3"><img src="./images/artwork/Hillary_Goldwynn_01_tn.jpg" alt="Artwork 4"><img src="./images/artwork/Hillary_Goldwynn_02_tn.jpg" alt="Artwork 5"><img src="./images/artwork/Hillary_Goldwynn_03_tn.jpg" alt="Artwork 6">
-                    <img
-                        src="./images/artwork/Hillary_Goldwynn_04_tn.jpg" alt="Artwork 7"><img src="./images/artwork/Hillary_Goldwynn_05_tn.jpg" alt="Artwork 8"><img src="./images/artwork/Hillary_Goldwynn_06_tn.jpg" alt="Artwork 9"><img src="./images/artwork/Hillary_Goldwynn_07_tn.jpg" alt="Artwork 10"><img src="./images/artwork/Riley_Rewington_01_tn.jpg"
-                            alt="Artwork 11"><img src="./images/artwork/Riley_Rewington_02_tn.jpg" alt="Artwork 12"><img src="./images/artwork/Riley_Rewington_03_tn.jpg" alt="Artwork 13"><img src="./images/artwork/Riley_Rewington_04_tn.jpg" alt="Artwork 14">
-                        <img
-                            src="./images/artwork/Riley_Rewington_05_tn.jpg" alt="Artwork 15"><img src="./images/artwork/Riley_Rewington_06_tn.jpg" alt="Artwork 16"></div>
-            </article>
-        </aside>
-        <!-- secondary-->
+        {{> sidebar}}
     </div>
 </div>
 <!-- container-->
