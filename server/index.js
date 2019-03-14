@@ -3,8 +3,12 @@ const hbs = require('express-handlebars');
 const createErrors = require('http-errors');
 const path = require('path');
 const routes = require('./routes');
+const configs = require('./config');
 
 const app = express();
+
+const config = configs[app.get('env')];
+
 
 app.use(express.static('public'));
 // view engine setup
@@ -17,7 +21,8 @@ app.engine( '.hbs', hbs( {
   layoutsDir: __dirname + '/views/layouts/',
   partialsDir: __dirname + '/views/partials/'
 }));
-
+app.locals.title = config.sitename;
+console.log(app.locals.title);
 app.get('/favicon.ico', (req,res,next)=>{
     return res.sendStatus(204);
 });
