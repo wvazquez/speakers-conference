@@ -9,24 +9,22 @@ const app = express();
 
 const config = configs[app.get('env')];
 
-
+// static assets in public folder
 app.use(express.static('public'));
-// view engine setup
-app.set('views', path.join(__dirname, './views'));
-app.set('view engine', '.hbs');
 
-app.engine( '.hbs', hbs( {
-  extname: '.hbs',
-  defaultView: 'default',
-  layoutsDir: __dirname + '/views/layouts/',
-  partialsDir: __dirname + '/views/partials/'
-}));
+// view engine setup
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, './views'));
+
 app.locals.title = config.sitename;
 console.log(app.locals.title);
+
+// Temp solution for no favicon found
 app.get('/favicon.ico', (req,res,next)=>{
     return res.sendStatus(204);
 });
 
+// modular routing
 app.use('/', routes());
 
 app.use((req,res,next) => {

@@ -19,8 +19,7 @@
   "homepage": "https://github.com/wvazquez/speakers-conference#readme",
   "dependencies": {
     "express": "^4.16.4",
-    "express-handlebars": "^3.0.2",
-    "handlebars": "^4.1.0",
-    "http-errors": "^1.7.2"
+    "http-errors": "^1.7.2",
+    "pug": "^2.0.3"
   }
 }
