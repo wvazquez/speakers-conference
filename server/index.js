@@ -1,5 +1,4 @@
 const express = require('express');
-const hbs = require('express-handlebars');
 const createErrors = require('http-errors');
 const path = require('path');
 const routes = require('./routes');
@@ -15,6 +14,12 @@ app.use(express.static('public'));
 // view engine setup
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, './views'));
+
+// formats page source to have whitespace in development mode
+if(app.get('env') === 'development'){
+    app.locals.pretty = true;
+}
+
 
 app.locals.title = config.sitename;
 console.log(app.locals.title);
