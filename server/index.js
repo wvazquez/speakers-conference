@@ -32,10 +32,14 @@ app.get('/favicon.ico', (req,res,next)=>{
 // modular routing
 app.use('/', routes());
 
+// If we reach this point, we know no other routes have been found.
+// This is a normal route that is matched if no other routes have matched. 
+// Our route will match and send an error to next() and pass to error handler
 app.use((req,res,next) => {
     return next(createErrors(404, "Page Not Found"));
 });
 
+// error handler function that will handle any error passed through next()
 app.use((err,req,res,next) => {
     const status = err.status || 500;
     res.locals.status = status;
