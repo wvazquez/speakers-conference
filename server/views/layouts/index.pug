@@ -7,42 +7,7 @@ html
     meta(name='viewport', content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0')
     link(href='https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab', rel='stylesheet', type='text/css')
   body
-    header
-      .jumbotron.hidden-xs
-      // jumbotron
-      nav.navbar.navbar-inverse
-        .container
-          .navbar-header
-            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
-              span.sr-only Toggle navigation
-              span.icon-bar
-              span.icon-bar
-              span.icon-bar
-            a.navbar-brand(href='./index.html') Roux Meetups
-          #navbar-collapse.collapse.navbar-collapse
-            ul.nav.navbar-nav.navbar-right
-              li
-                a(href='./index.html') Home
-              li
-                a.dropdown-toggle(href='./speakers.html', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-                  | Speakers
-                  span.caret
-                    span
-                ul.dropdown-menu
-                  li
-                    a(href='./speakers.html') All Speakers
-                  li.divider(role='separator')
-                  li
-                    a(href='/speakers/Lorenzo_Garcia') Lorenzo Garcia
-                  li
-                    a(href='./Hillary_Goldwynn.html') Hilary Goldywynn Post
-                  li
-                    a(href='/speakers/Riley_Rewington') Riley Rudolph Rewington
-              li
-                a(href='./feedback.html') Feedback
-            // nav
-          // navbar-collapse
-        // container
+    include includes/header
     block speakerslist
     block content
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
