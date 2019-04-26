@@ -1,18 +1,34 @@
 const express = require('express');
+
 const router = express.Router();
 
-// Node.js defaults to index.js
-const route_speakers = require('./speakers');
-const route_feedback = require('./feedback');
+const speakersRoute = require('./speakers');
+const feedbackRoute = require('./feedback');
 
-module.exports = () => {
-    router.get('/', (req,res, next)=>{
-        return res.render('index',{
-            page: 'Home'
-        });
+module.exports = (param) => {
+    
+    const { speakerService } = param;
+
+    router.get('/', async (req, res, next) => {
+        try {
+            const promises = [];
+            promises.push(speakerService.getListShort());
+            promises.push(speakerService.getAllArtwork());
+    
+            const results = await Promise.all(promises);
+    
+            return res.render('index', {
+                page: 'Home',
+                speakerslist: results[0],
+                artwork: results[1],
+            });
+        } catch(err) {
+            return next(err);
+        }
     });
-    router.use('/speakers', route_speakers());
-    router.use('/feedback', route_feedback());
 
+    router.use('/speakers', speakersRoute(param));
+    router.use('/feedback', feedbackRoute(param));
+    
     return router;
 };

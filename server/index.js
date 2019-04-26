@@ -3,10 +3,12 @@ const createErrors = require('http-errors');
 const path = require('path');
 const routes = require('./routes');
 const configs = require('./config');
-
+const SpeakerService = require('./services/SpeakerService');
 const app = express();
 
 const config = configs[app.get('env')];
+
+const speakerService = new SpeakerService(config.data.speakers);
 
 // static assets in public folder
 app.use(express.static('public'));
@@ -29,8 +31,20 @@ app.get('/favicon.ico', (req,res,next)=>{
     return res.sendStatus(204);
 });
 
+app.use(async (req,res,next) => {
+    try {
+        const names = await speakerService.getNames();
+        res.locals.speakerNames = names;
+        return next();
+    } catch (err) {
+        return next(err)
+    }
+});
+
 // modular routing
-app.use('/', routes());
+app.use('/', routes({
+    speakerService,
+}));
 
 // If we reach this point, we know no other routes have been found.
 // This is a normal route that is matched if no other routes have matched. 
