@@ -4,11 +4,15 @@ const path = require('path');
 const routes = require('./routes');
 const configs = require('./config');
 const SpeakerService = require('./services/SpeakerService');
+const FeedbackService = require('./services/FeedbackService');
+
 const app = express();
 
 const config = configs[app.get('env')];
 
 const speakerService = new SpeakerService(config.data.speakers);
+const feedbackService = new FeedbackService(config.data.feedback);
+
 
 // static assets in public folder
 app.use(express.static('public'));
@@ -44,6 +48,7 @@ app.use(async (req,res,next) => {
 // modular routing
 app.use('/', routes({
     speakerService,
+    feedbackService,
 }));
 
 // If we reach this point, we know no other routes have been found.
