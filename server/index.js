@@ -1,6 +1,7 @@
 const express = require('express');
 const createErrors = require('http-errors');
 const path = require('path');
+const bodyParser = require('body-parser');
 const routes = require('./routes');
 const configs = require('./config');
 const SpeakerService = require('./services/SpeakerService');
@@ -20,6 +21,8 @@ app.use(express.static('public'));
 // view engine setup
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, './views'));
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // formats page source to have whitespace in development mode
 if(app.get('env') === 'development'){
