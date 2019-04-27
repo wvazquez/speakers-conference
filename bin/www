@@ -7,6 +7,7 @@ const config = require("../server/config")[process.env.NODE_ENV || 'development'
 const app = require('../server/index')(config);
 const debug = require('debug')('speakers-conference:server');
 const http = require('http');
+const db = require('../server/lib/db');
 
 /**
  * Get port from environment and store in Express.
@@ -22,10 +23,23 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+ * Connect to Database
+ */
+
+db.connect(config.database.dsn)
+  .then(() => {
+    console.log("connected to mongodb");
+    server.listen(port);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+/**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+
 server.on('error', onError);
 server.on('listening', onListening);
 
