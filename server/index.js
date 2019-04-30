@@ -1,75 +1,73 @@
 const express = require('express');
-const createErrors = require('http-errors');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
 const path = require('path');
+const createError = require('http-errors');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const auth = require('./lib/auth');
 const SpeakerService = require('./services/SpeakerService');
 const FeedbackService = require('./services/FeedbackService');
 
+module.exports = (config) => {
+  const app = express();
+  const speakers = new SpeakerService(config.data.speakers);
+  const feedback = new FeedbackService(config.data.feedback);
 
-module.exports = (config) =>{
-    const app = express();
+  app.set('view engine', 'pug');
+  app.set('views', path.join(__dirname, './views'));
 
+  app.locals.title = config.sitename;
 
-    const speakerService = new SpeakerService(config.data.speakers);
-    const feedbackService = new FeedbackService(config.data.feedback);
+  app.use('/', express.static(path.join(__dirname, '../public')));
+  app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(cookieParser());
 
-    // static assets in public folder
-    app.use(express.static('public'));
+  app.use(session({
+    secret: 'very secret 12345',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  }));
 
-    // view engine setup
-    app.set('view engine', 'pug');
-    app.set('views', path.join(__dirname, './views'));
+  app.use(auth.initialize);
+  app.use(auth.session);
+  app.use(auth.setUser);
 
-    app.use(bodyParser.urlencoded({ extended: true }));
-
-    // formats page source to have whitespace in development mode
-    if(app.get('env') === 'development'){
-        app.locals.pretty = true;
+  app.use(async (req, res, next) => {
+    try {
+      const names = await speakers.getNames();
+      res.locals.speakerNames = names;
+      return next();
+    } catch (err) {
+      return next(err);
     }
+  });
 
+  app.use('/', routes({ speakers, feedback }));
 
-    app.locals.title = config.sitename;
-    console.log(app.locals.title);
+  // catch 404 and forward to error handler
+  app.use((req, res, next) => {
+    next(createError(404));
+  });
 
-    // Temp solution for no favicon found
-    app.get('/favicon.ico', (req,res,next)=>{
-        return res.sendStatus(204);
-    });
+  if (app.get('env') === 'development') {
+    app.locals.pretty = true;
+  }
 
-    app.use(async (req,res,next) => {
-        try {
-            const names = await speakerService.getNames();
-            res.locals.speakerNames = names;
-            return next();
-        } catch (err) {
-            return next(err)
-        }
-    });
+  // error handler
+  app.use((err, req, res, next) => {
+    res.locals.message = err.message;
+    const status = err.status || 500; // If no status is provided, let's assume it's a 500
+    res.locals.status = status;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.status(status);
+    res.render('error');
+  });
 
-    // modular routing
-    app.use('/', routes({
-        speakerService,
-        feedbackService,
-    }));
-
-    // If we reach this point, we know no other routes have been found.
-    // This is a normal route that is matched if no other routes have matched. 
-    // Our route will match and send an error to next() and pass to error handler
-    app.use((req,res,next) => {
-        return next(createErrors(404, "Page Not Found"));
-    });
-
-    // error handler function that will handle any error passed through next()
-    app.use((err,req,res,next) => {
-        const status = err.status || 500;
-        res.locals.status = status;
-        res.locals.message = err.message;
-        res.locals.error = req.app.get('env') === 'development' ? err : {};
-        res.status(status);
-        return res.render('error');
-    });
-
-    return app;
-}
+  return app;
+};

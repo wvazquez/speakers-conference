@@ -2,35 +2,25 @@ const express = require('express');
 
 const router = express.Router();
 
+// Require the index file
 const speakersRoute = require('./speakers');
 const feedbackRoute = require('./feedback');
 const usersRoute = require('./users');
 
-module.exports = (param) => {
-    
-    const { speakerService } = param;
+module.exports = (params) => {
+  // Destructuring assignment
+  const { speakers } = params;
 
-    router.get('/', async (req, res, next) => {
-        try {
-            const promises = [];
-            promises.push(speakerService.getListShort());
-            promises.push(speakerService.getAllArtwork());
-    
-            const results = await Promise.all(promises);
-    
-            return res.render('index', {
-                page: 'Home',
-                speakerslist: results[0],
-                artwork: results[1],
-            });
-        } catch(err) {
-            return next(err);
-        }
-    });
+  // Now let's define the index route and mount it on slash.
+  router.get('/', async (req, res) => {
+    const speakerslist = await speakers.getListShort();
+    const artwork = await speakers.getAllArtwork();
+    return res.render('index', { page: 'Home', speakerslist, artwork });
+  });
 
-    router.use('/speakers', speakersRoute(param));
-    router.use('/feedback', feedbackRoute(param))
-    router.use('/users', usersRoute(param));
-    
-    return router;
+  // And mount it to the path speakers.
+  router.use('/speakers', speakersRoute(params));
+  router.use('/feedback', feedbackRoute(params));
+  router.use('/users', usersRoute(params));
+  return router;
 };
