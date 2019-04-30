@@ -4,7 +4,9 @@ const router = express.Router();
 
 module.exports = (params) => {
   const { } = params;
-
+  router.get('/login', (req, res) => {
+    res.render('users/login')
+  });
   router.get('/registration', (req, res) =>
     res.render('users/registration', { success: req.query.success }));
 
@@ -20,7 +22,7 @@ module.exports = (params) => {
       return next(new Error("Failed to save user."))
     } catch (err) {
       return next(err);
-    }git s
+    }
   });  
 
   router.get('/account', (req, res) =>
